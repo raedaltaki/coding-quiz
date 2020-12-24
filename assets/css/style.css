@@ -1,13 +1,12 @@
-.header
-{
+.header{
   display: flex;
   justify-content: space-between;
   padding: 10px 30px;
 }
 
-.header div
-{
+.header div{
   margin: auto 0px;
+
 }
 
 .header div p {
@@ -15,14 +14,24 @@
  align-content: center;
 }
 
-main{
+main , footer{
   width: 60%;
   margin: 30px auto;
   text-align: center;
 }
 
+ul{
+  list-style: none;
+  padding: 0px;
+  margin:  0px;
+}
+
+Ul li{
+  margin: 10px 0px;
+}
+
 button{
-  width:  100px;
+  width:  150px;
   height: 35px;
   border-radius: 10px;
   border-width: 0px;
@@ -33,3 +42,17 @@ button{
 button:hover{
   background-color:rgb(201, 32, 187);
 }
+
+
+.answer{
+  border-top: solid;
+  border-top-width: thin;
+  padding-top: 10px;
+  font-size: 40px;
+  text-align: left;
+  color: grey;
+}
+
+ button:active{
+  border-width:unset;
+} 
