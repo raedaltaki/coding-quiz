@@ -1,0 +1,35 @@
+.header
+{
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 30px;
+}
+
+.header div
+{
+  margin: auto 0px;
+}
+
+.header div p {
+ display: inline;
+ align-content: center;
+}
+
+main{
+  width: 60%;
+  margin: 30px auto;
+  text-align: center;
+}
+
+button{
+  width:  100px;
+  height: 35px;
+  border-radius: 10px;
+  border-width: 0px;
+  background-color:rgb(50, 5, 80);
+  color: aliceblue;
+}
+
+button:hover{
+  background-color:rgb(201, 32, 187);
+}
