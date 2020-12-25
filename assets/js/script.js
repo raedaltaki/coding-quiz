@@ -56,7 +56,7 @@ var firstPage = function ()
     timer = 0;
     timerEl.textContent = timer;
 
-    mainEl.style.textAlign = "center";
+    mainEl.className = "text-center-align";
     questionEl.textContent = "Coding Quiz Challenge"
 
     startParagraph.textContent = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds! ";
@@ -81,12 +81,12 @@ var quiz = function()
 
         bodyEl.removeChild(startParagraph);
         bodyEl.removeChild(startBtnEl);
-        mainEl.style.textAlign = "left";
+        mainEl.className="text-align";
 
-        answer1BtnEl.style.textAlign = "left";
-        answer2BtnEl.style.textAlign = "left";
-        answer3BtnEl.style.textAlign = "left";
-        answer4BtnEl.style.textAlign = "left";
+        answer1BtnEl.className ="text-align";
+        answer2BtnEl.className ="text-align";
+        answer3BtnEl.className ="text-align";
+        answer4BtnEl.className ="text-align";
         
         listEl1.appendChild(answer1BtnEl);
         listEl2.appendChild(answer2BtnEl);
@@ -100,6 +100,7 @@ var quiz = function()
         
     }
 
+
     questionEl.textContent = questionsPool[questionNo].q;
     
     answer1BtnEl.textContent ="1. " + questionsPool[questionNo].a1;
@@ -107,13 +108,13 @@ var quiz = function()
     answer3BtnEl.textContent ="3. " + questionsPool[questionNo].a3;
     answer4BtnEl.textContent ="4. " + questionsPool[questionNo].a4;
 
+    setTimeout(removeFooter,2000);
+
     
 };
 
 var checkAnswer = function()
 {
-    
-    answerEl.className= "answer";
 
     var selectedAnswer = this.textContent;
     selectedAnswer = selectedAnswer.substring(3);
@@ -180,6 +181,8 @@ var endQuiz = function()
     scoreForm.appendChild(scoreBtnEl);
     bodyEl.appendChild(scoreForm);
 
+    setTimeout(removeFooter,2000);
+
 
 }
 
@@ -228,6 +231,11 @@ var clearHighScore = function()
 {
     localStorage.clear();
     startParagraph.textContent = "1. "; 
+}
+
+var removeFooter = function()
+{
+    answerEl.style.visibility= "hidden";
 }
 
 firstPage();
