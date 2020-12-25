@@ -41,8 +41,17 @@ button{
 
 button:hover{
   background-color:rgb(201, 32, 187);
+  cursor: pointer;
+  cursor: hand;
 }
 
+button:focus{
+  outline: none;
+} 
+
+#view-high-score{
+  color:rgb(206, 15, 206) ;
+}
 
 .answer{
   border-top: solid;
@@ -53,6 +62,3 @@ button:hover{
   color: grey;
 }
 
- button:active{
-  border-width:unset;
-} 

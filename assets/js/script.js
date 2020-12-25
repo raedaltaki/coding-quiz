@@ -5,17 +5,24 @@ var mainEl = document.querySelector("main");
 var startParagraph = document.getElementById("start-paragraph");
 var answerEl = document.getElementById("answer");
 var timerEl = document.getElementById("timer");
+var scoreForm = document.getElementById("score-form");
+var viewHighScoreEl = document.getElementById("view-high-score");
 
 var listEl1 = document.createElement("li");
 var listEl2 = document.createElement("li");
 var listEl3 = document.createElement("li");
 var listEl4 = document.createElement("li");
 
-var startbtnEl = document.createElement("button");
+var startBtnEl = document.createElement("button");
 var answer1BtnEl = document.createElement("button");
 var answer2BtnEl = document.createElement("button");
 var answer3BtnEl = document.createElement("button");
 var answer4BtnEl = document.createElement("button");
+var scoreBtnEl = document.createElement("button");
+var goBackBtnEl = document.createElement("button");
+var clearHighScoreBtnEl = document.createElement("button");
+
+var containerEl;
 
 var questionsPool = 
 [
@@ -30,17 +37,31 @@ var questionNo = 0;
 var timer = 0;
 timerEl.textContent = timer;
 var startCountdown;
+var player = "";
+var highScore = 0;
 
 var firstPage = function () 
 {
+    if(questionEl.textContent === "High scores")
+    {
+        bodyEl.removeChild(goBackBtnEl);
+        bodyEl.removeChild(clearHighScoreBtnEl);
+    }
+
+    questionNo = 0;
+
+    mainEl.style.textAlign = "center";
     questionEl.textContent = "Coding Quiz Challenge"
 
     startParagraph.textContent = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds! ";
 
-    startbtnEl.textContent = "Start Quiz";
+    startBtnEl.textContent = "Start Quiz";
 
-    listEl1.appendChild(startbtnEl);
-    answerListEl.appendChild(listEl1);
+    bodyEl.appendChild(startBtnEl);
+
+
+
+    
 }
 
 var quiz = function()
@@ -52,8 +73,7 @@ var quiz = function()
         startCountdown = setInterval (countdown,1000);
 
         bodyEl.removeChild(startParagraph);
-       // answerListEl.removeChild(listEl1);
-        listEl1.removeChild(startbtnEl);
+        bodyEl.removeChild(startBtnEl);
         mainEl.style.textAlign = "left";
 
         answer1BtnEl.style.textAlign = "left";
@@ -90,6 +110,7 @@ var checkAnswer = function()
 
     var selectedAnswer = this.textContent;
     selectedAnswer = selectedAnswer.substring(3);
+    answerEl.style.visibility= "visible";
 
     
     if(selectedAnswer === questionsPool[questionNo].c)
@@ -99,19 +120,19 @@ var checkAnswer = function()
     else
     {
         answerEl.textContent= "Wrong!";
-        timer= timer-20;
+        timer= timer-10;
+        timerEl.textContent=timer;
     
     }
     
     questionNo++;
-    if(questionNo < questionsPool.length)
+    if(questionNo < questionsPool.length && timer > 0)
     {
-        quiz();
+        return quiz();
     }
     else
     {
-        
-        endQuiz();
+        return endQuiz();
     }
 } 
 
@@ -119,42 +140,95 @@ var countdown = function()
 {
     timer--;
     timerEl.textContent=timer;
-    if(timer === 0)
+
+    if(timer < 1)
     {
-        endQuiz();
+       return endQuiz();
     }
 } 
 
 var endQuiz = function()
 {
+    if(timer < 1)
+    {
+        timer =0;
+        timerEl.textContent=timer;
+    }
+
     clearInterval(startCountdown);
 
-    listEl1.removeChild(answer1BtnEl);
+    answerListEl.removeChild(listEl1);
     answerListEl.removeChild(listEl2);
     answerListEl.removeChild(listEl3);
     answerListEl.removeChild(listEl4);
 
     questionEl.textContent = "All done!";
-    bodyEl.appendChild(startParagraph);
-    startParagraph.textContent = "Your final score is " + timer; 
     
+    scoreForm.innerHTML = "<label for ='intials'>Enter intials: </label> <input type='text' placeholder='Your Intials' name='intials' id='intials'>";
+    scoreBtnEl.textContent = "Submit"
+    scoreBtnEl.type = "submit";
+    scoreForm.appendChild(scoreBtnEl);
 
+    startParagraph.textContent = "Your final score is " + timer; 
+    bodyEl.appendChild(startParagraph);
+
+    
 
 }
 
-var score = function ()
+var score = function (event)
 {
+    event.preventDefault();
+    player = document.getElementById("intials").value;
 
+    var highscore = localStorage.getItem("score");
+    if (!highscore)
+    {
+        highscore=-1;
+    }
+    if(timer>highscore)
+    {
+        localStorage.setItem("intials",player);
+        localStorage.setItem("score",timer);
+    }
+    highscoreView();
+};
+
+var highscoreView = function ()
+{
+    answerEl.style.visibility= "hidden";
+    var topPlayer = localStorage.getItem("intials");
+    var topScore = localStorage.getItem("score");
+
+    questionEl.textContent = "High scores";
+
+    scoreForm.innerHTML = "";
+
+    startParagraph.textContent = "1. " + topPlayer + " - " + topScore; 
+
+    goBackBtnEl.textContent = "GoBack";
+    clearHighScoreBtnEl.textContent = "Clear high scores";
+    bodyEl.appendChild(goBackBtnEl);
+    bodyEl.appendChild(clearHighScoreBtnEl);
+}
+
+var clearHighScore = function()
+{
+    localStorage.clear();
+    startParagraph.textContent = "1. "; 
 }
 
 firstPage();
 
 
-startbtnEl.addEventListener("click", quiz);
+startBtnEl.addEventListener("click", quiz);
 answer1BtnEl.addEventListener("click", checkAnswer);
 answer2BtnEl.addEventListener("click", checkAnswer);
 answer3BtnEl.addEventListener("click", checkAnswer);
 answer4BtnEl.addEventListener("click", checkAnswer);
-answer1BtnEl.addEventListener("submit", score);
+scoreBtnEl.addEventListener("click", score);
+clearHighScoreBtnEl.addEventListener("click", clearHighScore);
+goBackBtnEl.addEventListener("click", firstPage);
+//viewHighScoreEl.onclick(score);
 
 
