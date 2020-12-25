@@ -5,13 +5,15 @@ var mainEl = document.querySelector("main");
 var startParagraph = document.getElementById("start-paragraph");
 var answerEl = document.getElementById("answer");
 var timerEl = document.getElementById("timer");
-var scoreForm = document.getElementById("score-form");
 var viewHighScoreEl = document.getElementById("view-high-score");
+var timerContainerEl = document.getElementById("timer-container");
 
 var listEl1 = document.createElement("li");
 var listEl2 = document.createElement("li");
 var listEl3 = document.createElement("li");
 var listEl4 = document.createElement("li");
+
+var scoreForm = document.createElement("form");
 
 var startBtnEl = document.createElement("button");
 var answer1BtnEl = document.createElement("button");
@@ -44,16 +46,21 @@ var firstPage = function ()
 {
     if(questionEl.textContent === "High scores")
     {
+        viewHighScoreEl.style.visibility="visible";
+        timerContainerEl.style.visibility="visible";
         bodyEl.removeChild(goBackBtnEl);
         bodyEl.removeChild(clearHighScoreBtnEl);
     }
 
     questionNo = 0;
+    timer = 0;
+    timerEl.textContent = timer;
 
     mainEl.style.textAlign = "center";
     questionEl.textContent = "Coding Quiz Challenge"
 
     startParagraph.textContent = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds! ";
+    startParagraph.style.backgroundColor = "white";
 
     startBtnEl.textContent = "Start Quiz";
 
@@ -163,16 +170,16 @@ var endQuiz = function()
     answerListEl.removeChild(listEl4);
 
     questionEl.textContent = "All done!";
+
+    startParagraph.textContent = "Your final score is " + timer; 
+    bodyEl.appendChild(startParagraph);
     
     scoreForm.innerHTML = "<label for ='intials'>Enter intials: </label> <input type='text' placeholder='Your Intials' name='intials' id='intials'>";
     scoreBtnEl.textContent = "Submit"
     scoreBtnEl.type = "submit";
     scoreForm.appendChild(scoreBtnEl);
+    bodyEl.appendChild(scoreForm);
 
-    startParagraph.textContent = "Your final score is " + timer; 
-    bodyEl.appendChild(startParagraph);
-
-    
 
 }
 
@@ -197,16 +204,21 @@ var score = function (event)
 var highscoreView = function ()
 {
     answerEl.style.visibility= "hidden";
+    viewHighScoreEl.style.visibility="hidden";
+    timerContainerEl.style.visibility="hidden";
     var topPlayer = localStorage.getItem("intials");
     var topScore = localStorage.getItem("score");
 
+
     questionEl.textContent = "High scores";
 
-    scoreForm.innerHTML = "";
+    bodyEl.removeChild(scoreForm);
 
     startParagraph.textContent = "1. " + topPlayer + " - " + topScore; 
+    startParagraph.style.backgroundColor = "#e1cde9";
+    startParagraph.style.padding = "10px";
 
-    goBackBtnEl.textContent = "GoBack";
+    goBackBtnEl.textContent = "Go Back";
     clearHighScoreBtnEl.textContent = "Clear high scores";
     bodyEl.appendChild(goBackBtnEl);
     bodyEl.appendChild(clearHighScoreBtnEl);

@@ -1,3 +1,12 @@
+*{
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1{
+  font-size: 35px;
+}
+
 .header{
   display: flex;
   justify-content: space-between;
@@ -26,18 +35,22 @@ ul{
   margin:  0px;
 }
 
-Ul li{
-  margin: 10px 0px;
-}
-
 button{
-  width:  150px;
-  height: 35px;
+  width:  fit-content;
+  height: fit-content;
   border-radius: 10px;
   border-width: 0px;
   background-color:rgb(50, 5, 80);
   color: aliceblue;
+  margin: 5px 10px;
+  padding: 10px 20px;
 }
+
+ul li button{
+  width:  300px;
+}
+
+
 
 button:hover{
   background-color:rgb(201, 32, 187);
@@ -48,6 +61,11 @@ button:hover{
 button:focus{
   outline: none;
 } 
+
+input{
+  height: 35px;
+  width:  300px;
+}
 
 #view-high-score{
   color:rgb(206, 15, 206) ;
