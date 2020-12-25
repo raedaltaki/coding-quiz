@@ -191,28 +191,36 @@ var score = function (event)
     event.preventDefault();
     player = document.getElementById("intials").value;
 
-    var highscore = localStorage.getItem("score");
-    if (!highscore)
+    if(!player)
     {
-        highscore=-1;
+        alert("Please enter your intials");
     }
-    if(timer>highscore)
+    else
     {
-        localStorage.setItem("intials",player);
-        localStorage.setItem("score",timer);
+        var highscore = localStorage.getItem("score");
+
+        if (!highscore)
+        {
+            highscore=-1;
+        }
+    
+        if(timer>highscore)
+        {
+            localStorage.setItem("intials",player);
+            localStorage.setItem("score",timer);
+        }
+        highscoreView();
     }
-    highscoreView();
 };
 
 var highscoreView = function ()
 {
-    answerEl.style.visibility= "hidden";
+    removeFooter();
     viewHighScoreEl.style.visibility="hidden";
     timerContainerEl.style.visibility="hidden";
     var topPlayer = localStorage.getItem("intials");
     var topScore = localStorage.getItem("score");
-
-
+ 
     questionEl.textContent = "High scores";
 
     bodyEl.removeChild(scoreForm);
