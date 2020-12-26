@@ -34,13 +34,15 @@ var questionsPool =
     {q: "String values must be enclosed within _______ when being assigned to variables.", a1:"commas", a2:"curly brackets", a3:"quotes", a4:"parenthesis" , c:"quotes"},
     {q: "A very useful tool used during development and debugging for printing content to the debugger is:", a1:"JavaScript", a2:"terminal\/bash", a3:"for loops", a4:"console.log" , c:"console.log"},
 ];
+var highscores = [];
 
 var questionNo = 0;
 var timer = 0;
 timerEl.textContent = timer;
 var startCountdown;
-var player = "";
 var highScore = 0;
+
+
 
 var firstPage = function () 
 {
@@ -95,12 +97,9 @@ var quiz = function()
         answerListEl.appendChild(listEl3);
         answerListEl.appendChild(listEl4);
 
-        // answerListEl.className("list");
-
         bodyEl.appendChild(answerListEl);
         
     }
-
 
     questionEl.textContent = questionsPool[questionNo].q;
     
@@ -109,9 +108,7 @@ var quiz = function()
     answer3BtnEl.textContent ="3. " + questionsPool[questionNo].a3;
     answer4BtnEl.textContent ="4. " + questionsPool[questionNo].a4;
 
-    setTimeout(removeFooter,2000);
-
-    
+    setTimeout(removeFooter,2000);  
 };
 
 var checkAnswer = function()
@@ -167,9 +164,14 @@ var endQuiz = function()
 
     clearInterval(startCountdown);
 
-    if(answerListEl)
+    if(bodyEl.contains(answerListEl))
     {
+        console.log(bodyEl.contains(answerListEl));
         bodyEl.removeChild(answerListEl); //check if not available remove
+    }
+    else
+    {
+        return;
     }
 
     questionEl.textContent = "All done!";
@@ -191,26 +193,26 @@ var endQuiz = function()
 var score = function (event)
 {
     event.preventDefault();
-    player = document.getElementById("intials").value;
+    var intials = document.getElementById("intials").value;
 
-    if(!player)
+    if(!intials)
     {
         alert("Please enter your intials");
     }
     else
     {
-        var highscore = localStorage.getItem("score");
 
-        if (!highscore)
+        var player = 
         {
-            highscore=-1;
-        }
+            name: intials,
+            score: timer
+        };
+
+        highscores = loadHighscore();
+        highscores.push(player);
+
+        localStorage.setItem("highscores", JSON.stringify(highscores));
     
-        if(timer>highscore)
-        {
-            localStorage.setItem("intials",player);
-            localStorage.setItem("score",timer);
-        }
         highscoreView();
     }
 };
@@ -220,8 +222,6 @@ var highscoreView = function ()
     removeFooter();
     viewHighScoreEl.style.visibility="hidden";
     timerContainerEl.style.visibility="hidden";
-    var topPlayer = localStorage.getItem("intials");
-    var topScore = localStorage.getItem("score");
 
     if(questionEl.textContent === "All done!")
     {
@@ -238,11 +238,9 @@ var highscoreView = function ()
         bodyEl.appendChild(startParagraph);
         mainEl.className="text-align";
     }
-    
+
     questionEl.textContent = "High scores";
 
-
-    startParagraph.textContent = "1. " + topPlayer + " - " + topScore; 
     startParagraph.style.backgroundColor = "#e1cde9";
     startParagraph.style.padding = "10px";
 
@@ -250,17 +248,70 @@ var highscoreView = function ()
     clearHighScoreBtnEl.textContent = "Clear high scores";
     bodyEl.appendChild(goBackBtnEl);
     bodyEl.appendChild(clearHighScoreBtnEl);
+
+    startParagraph.textContent = "";
+
+    var savedHighscores= loadHighscore();
+    
+    
+    if (!savedHighscores)
+    {
+        return false;
+    }
+    else
+    {
+        for (var i = 0; i < savedHighscores.length; i++) 
+        {
+            startParagraph.innerHTML += (i+1) + ". " + savedHighscores[i].name + " - " + savedHighscores[i].score + "<br />";
+        }
+    }
+     
+    
 }
 
 var clearHighScore = function()
 {
     localStorage.clear();
-    startParagraph.textContent = "1. "; 
+    startParagraph.textContent = ""; 
 }
 
 var removeFooter = function()
 {
     answerEl.style.visibility= "hidden";
+}
+
+var loadHighscore = function()
+{
+    var savedHighscores= localStorage.getItem("highscores");
+    if (!savedHighscores)
+    {
+        return [];
+    }
+    else
+    {
+        savedHighscores = JSON.parse(savedHighscores);
+
+        // var orderedHighscores = savedHighscores;
+        for(var i = 0; i<savedHighscores.length; i++)
+        {
+            for(var j=0; j<savedHighscores.length; j++)
+            {
+                if (savedHighscores[i].score>savedHighscores[j].score)
+                {
+                    var tempName=savedHighscores[i].name;
+                    var tempScore =savedHighscores[i].score;
+
+                    savedHighscores[i].name = savedHighscores[j].name;
+                    savedHighscores[i].score = savedHighscores[j].score;
+
+                    savedHighscores[j].name = tempName;
+                    savedHighscores[j].score = tempScore;
+                }
+            }
+        }
+
+        return savedHighscores;
+    }
 }
 
 firstPage();
