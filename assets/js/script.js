@@ -1,14 +1,11 @@
 var questionEl = document.getElementById("question");
 var bodyEl = document.getElementById("body");
-// var answerListEl = document.getElementById("answerList");
 var mainEl = document.querySelector("main");
 var startParagraph = document.getElementById("start-paragraph");
 var answerEl = document.getElementById("answer");
 var timerEl = document.getElementById("timer");
 var viewHighScoreEl = document.getElementById("view-high-score");
 var timerContainerEl = document.getElementById("timer-container");
-
-
 
 var scoreForm = document.createElement("form");
 var answerListEl = document.createElement("ul");
@@ -69,9 +66,6 @@ var firstPage = function ()
 
     bodyEl.appendChild(startBtnEl);
 
-
-
-    
 }
 
 var quiz = function()
@@ -175,7 +169,7 @@ var endQuiz = function()
 
     if(answerListEl)
     {
-    bodyEl.removeChild(answerListEl); //check if not available remove
+        bodyEl.removeChild(answerListEl); //check if not available remove
     }
 
     questionEl.textContent = "All done!";
