@@ -68,7 +68,6 @@ ul li button{
 button:hover{
   background-color:rgb(201, 32, 187);
   cursor: pointer;
-  cursor: hand;
 }
 
 button:focus{
@@ -137,7 +136,6 @@ input{
   button:hover{
     background-color:rgb(50, 5, 80);
     cursor: pointer;
-    cursor: hand;
   }
 
 }
