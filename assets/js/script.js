@@ -166,7 +166,6 @@ var endQuiz = function()
 
     if(bodyEl.contains(answerListEl))
     {
-        console.log(bodyEl.contains(answerListEl));
         bodyEl.removeChild(answerListEl); //check if not available remove
     }
     else
@@ -230,14 +229,14 @@ var highscoreView = function ()
     else if(questionEl.textContent === "Coding Quiz Challenge")
     {
         bodyEl.removeChild(startBtnEl);
-        mainEl.className="text-align";
     }
     else
     {
         bodyEl.removeChild(answerListEl);
         bodyEl.appendChild(startParagraph);
-        mainEl.className="text-align";
     }
+    
+    mainEl.className="text-align";
 
     questionEl.textContent = "High scores";
 
@@ -291,7 +290,6 @@ var loadHighscore = function()
     {
         savedHighscores = JSON.parse(savedHighscores);
 
-        // var orderedHighscores = savedHighscores;
         for(var i = 0; i<savedHighscores.length; i++)
         {
             for(var j=0; j<savedHighscores.length; j++)
