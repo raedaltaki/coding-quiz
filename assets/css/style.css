@@ -14,6 +14,11 @@ h1{
   padding: 10px 30px;
 }
 
+#view-high-score{
+  color:rgb(206, 15, 206) ;
+  background-color: white;
+}
+
 .header div{
   margin: auto 0px;
 
@@ -73,10 +78,6 @@ button:focus{
 input{
   height: 35px;
   width:  300px;
-}
-
-#view-high-score{
-  color:rgb(206, 15, 206) ;
 }
 
 .answer{
